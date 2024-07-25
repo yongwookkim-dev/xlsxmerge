@@ -24,8 +24,18 @@ namespace NexonKorea.XlsxMerge
             }
 
 	        FakeBackgroundWorker.OnUpdateProgress("xlsx 파일 비교 [3단계 중 2단계]", "문서를 읽고 있습니다.", Path.GetFileName(xlsxFilePath), xlsxFilePath);
+            
+            var fullPath = Path.GetFullPath(xlsxFilePath);
+            var originalPath = fullPath;
+            // 확장자로 파일을 분간하는 엑셀 탓에 확장자가 없는 경우에는 추가해준다.
+            if (fullPath.ToLower() != ".xlsx")
+            {
+                File.Copy(xlsxFilePath, xlsxFilePath + ".xlsx", true);
+                fullPath += ".xlsx";
+            }
+            
             var workbooks = _application.Workbooks;
-            var workbook = workbooks.Open(Path.GetFullPath(xlsxFilePath));
+            var workbook = workbooks.Open(fullPath);
             var worksheets = workbook.Worksheets;
 
             // Change links to simple notation : [1] [2] ...
@@ -98,6 +108,11 @@ namespace NexonKorea.XlsxMerge
 
             Marshal.ReleaseComObject(workbook);
             Marshal.ReleaseComObject(workbooks);
+
+            if (originalPath != fullPath)
+            {
+                File.Delete(fullPath);
+            }
 
             return result;
         }
