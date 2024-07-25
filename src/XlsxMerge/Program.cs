@@ -21,7 +21,7 @@
             }
 
             // 폴더 변경은 args 해석 이후에 합니다.
-            string? exeFolderPath = Path.GetDirectoryName(path: System.Reflection.Assembly.GetEntryAssembly()?.Location);
+            string? exeFolderPath = Path.GetDirectoryName(path:System.AppContext.BaseDirectory);
             if (String.IsNullOrEmpty(exeFolderPath) == false)
                 Directory.SetCurrentDirectory(exeFolderPath);
 
