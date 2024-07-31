@@ -145,7 +145,7 @@ namespace NexonKorea.XlsxMerge
 				{
 					var currentCell = refWorksheet.Cell(rowNumber, cellNumber);
 					var currentCellDgv = dgvRow.Cells["C" + cellNumber.ToString()];
-					currentCellDgv.Value = currentCell.Value2String;
+					currentCellDgv.Value = currentCell.Value2String + $" [{currentCell.ContentsForDiff3}]";
 
 					if (refBaseRowNumber <= 0 || parsedWorksheetData[DocOrigin.Base] == null)
 						continue;
